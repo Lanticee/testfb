@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart' show defaultTargetPlatform;
 void main() async {
   if (defaultTargetPlatform == TargetPlatform.macOS) {
     await FacebookAuth.i.webAndDesktopInitialize(
-      appId: "1175452603432564",
+      appId: "appid",
       cookie: true,
       xfbml: true,
       version: "v18.0",
