@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart' show defaultTargetPlatform;
 void main() async {
   if (defaultTargetPlatform == TargetPlatform.macOS) {
     await FacebookAuth.i.webAndDesktopInitialize(
-      appId: "appid",
+      appId: "1175452603432564",
       cookie: true,
       xfbml: true,
       version: "v18.0",
@@ -67,6 +67,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  var token = '';
 
   Future<String> signInWithFacebook() async {
     // Trigger the sign-in flow
@@ -78,13 +79,13 @@ class _MyHomePageState extends State<MyHomePage> {
         'pages_manage_posts'
       ],
     );
-
     // Create a credential from the access token
     final OAuthCredential facebookAuthCredential =
         FacebookAuthProvider.credential(loginResult.accessToken!.token);
 
+    print("fb instance in login: ${ await FacebookAuth.instance.accessToken}");
     // Once signed in, return the UserCredential
-    return facebookAuthCredential.token?.toString() ?? '';
+    return facebookAuthCredential.accessToken!;
   }
 
   void _incrementCounter() {
@@ -143,14 +144,15 @@ class _MyHomePageState extends State<MyHomePage> {
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             ElevatedButton(
-                onPressed: () {
-                  var token = signInWithFacebook();
+                onPressed: () async {
+                  token = await signInWithFacebook();
+                  print(token);
                 },
                 child: const Text("sign in FaceBook")),
             ElevatedButton(
-                onPressed: () {
-                  FacebookAuth.instance.accessToken
-                      .then((value) => debugPrint(value!.token));
+                onPressed: () async {
+                  var check = await FacebookAuth.instance.accessToken;
+                  print(check);
                 },
                 child: const Text("check")),
           ],
